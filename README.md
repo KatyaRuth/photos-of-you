@@ -6,6 +6,6 @@ Credit to https://github.com/jcontini/fb-photo-downloader for most of the chrome
 ## Usage
 ```
 pip install -r requirements.txt
-python get_photo_urls.py
+python get_photo_urls.py -u <fb-email> -p <ya-password>
 python download_photos.py
 ```
