@@ -61,6 +61,7 @@ def index_photos():
     time.sleep(4)
 
     counter = 1
+    current_year = 2025
 
     while True:
         if counter > 1500:
@@ -87,6 +88,11 @@ def index_photos():
         }
 
         parse_date(doc)
+        if int(doc['fb_date'][0:4]) <= current_year:
+            current_year = doc['fb_date']
+        if int(doc['fb_date'][0:4]) > current_year:
+            print("We have done a full loop of the photos, breaking...")
+            break
 
         # Log to save file as we go, close when done to save
         with open('tagged.json', 'a') as f:
