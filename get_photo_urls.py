@@ -1,4 +1,5 @@
 import argparse, os, time, json
+import sys
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -12,6 +13,18 @@ from datetime import timedelta
 
 if os.path.exists('tagged.json'):
     os.remove('tagged.json')
+
+
+def check_for_chromedriver():
+    command = 'chromedriver'
+    has_chromedriver = any(
+        os.access(os.path.join(path, command), os.X_OK) for path in
+        os.environ["PATH"].split(os.pathsep))
+    if not has_chromedriver:
+        print("\nError: Could not find chromedriver. Please make sure you have "
+              "chromedriver (http://chromedriver.chromium.org/) installed and "
+              "on your PATH. Aborting.\n")
+        sys.exit()
 
 
 def start_session(username, password):
@@ -110,6 +123,7 @@ if __name__ == '__main__':
     parser.add_argument('-p', type=str, help='FB Password')
     args = parser.parse_args()
     try:
+        check_for_chromedriver()
         driver = start_session(args.u, args.p)
         index_photos()
     except KeyboardInterrupt:
